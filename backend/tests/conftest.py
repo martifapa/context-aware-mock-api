@@ -16,14 +16,11 @@ def mock_redis():
     mock_client_instance = AsyncMock()
 
     with (
+        patch("app.main.pool", new_callable=AsyncMock),
         patch(
-          "app.main.pool",
-          new_callable=AsyncMock
-          ),
-        patch(
-          "app.infrastructure.redis.get_redis_client",
-          return_value=mock_client_instance,
-          ),
+            "app.infrastructure.redis.get_redis_client",
+            return_value=mock_client_instance,
+        ),
     ):
         yield mock_client_instance
 

@@ -24,5 +24,5 @@ async def redis_health():
     except RedisError as e:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Redis connection failed: {str(e)}"
+            detail=f"Redis connection failed: {str(e)}",
         ) from e

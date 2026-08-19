@@ -3,7 +3,6 @@ from app.models.api_definition import ApiDefinition
 
 
 class ApiRepository:
-
     def __init__(self) -> None:
         self._redis = get_redis_client()
         self._key_prefix = "api_definition:"
