@@ -13,24 +13,19 @@ from app.main import app
 def mock_redis():
     """Mock the Redis client for all tests to block real TCP/IP calls to the DDBB"""
 
+    mock_client_instance = AsyncMock()
+
     with (
         patch(
-          "app.main.init_redis",
-          new_callable=AsyncMock,
-          create=True,
+          "app.main.pool",
+          new_callable=AsyncMock
           ),
         patch(
-          "app.main.close_redis",
-          new_callable=AsyncMock,
-          create=True,
-          ),
-        patch(
-          "app.infrastructure.redis.redis_client",
-          new_callable=AsyncMock,
-          create=True,
+          "app.infrastructure.redis.get_redis_client",
+          return_value=mock_client_instance,
           ),
     ):
-        yield
+        yield mock_client_instance
 
 
 @pytest.fixture
