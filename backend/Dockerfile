@@ -4,12 +4,12 @@ WORKDIR /app
 
 RUN pip install --no-cache-dir --upgrade pip
 
-COPY pyproject.toml README.md ./
+COPY backend/pyproject.toml README.md ./
 
 RUN pip install --no-cache-dir .
 
-COPY app ./app
-COPY tests ./tests
+COPY backend/app ./app
+COPY backend/tests ./tests
 
 EXPOSE 8000
 
