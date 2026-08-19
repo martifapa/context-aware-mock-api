@@ -12,11 +12,9 @@ router = APIRouter(
 async def health():
     return {"status": "ok"}
 
+
 @router.get("/redis")
 async def redis_health():
     await redis_client.ping()
 
-    return {
-        "status": "ok",
-        "redis": "pong"
-    }
+    return {"status": "ok", "redis": "pong"}
