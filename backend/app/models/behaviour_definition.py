@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Enum
+from enum import StrEnum
+
+from pydantic import BaseModel
 
 
-class HttpMethod(str, Enum):
+class HttpMethod(StrEnum):
     GET = "GET"
     POST = "POST"
     PUT = "PUT"
