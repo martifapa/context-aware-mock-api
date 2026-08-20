@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.routes.health import router as health_router
+from app.api.routes.mock import router as mock_router
 from app.infrastructure.redis import pool
 
 
@@ -21,3 +22,5 @@ app = FastAPI(
 )
 
 app.include_router(health_router)
+
+app.include_router(mock_router)
