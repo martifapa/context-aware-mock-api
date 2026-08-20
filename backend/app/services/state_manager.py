@@ -28,7 +28,7 @@ class StateManager:
 
     async def get(self, api_id: str, route_path: str) -> list[dict]:
         key = self._get_key(api_id, route_path)
-        raw_data = self._redis.get(key)
+        raw_data = await self._redis.get(key)
 
         if not raw_data:
             return []
