@@ -18,7 +18,7 @@ class ApiRepository:
 
     async def get(self, api_id: str) -> ApiDefinition | None:
         key = self._get_key(api_id)
-        api_json = self._redis.get(key)
+        api_json = await self._redis.get(key)
 
         if not api_json:
             return None
