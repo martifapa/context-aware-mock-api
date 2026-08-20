@@ -3,24 +3,26 @@ import json
 from fastapi import HTTPException, Request, Response, status
 
 from app.repositories.api_repository import ApiRepository
+from app.services.state_manager import StateManager
 
 
 class MockEngine:
 
     def __init__(self):
             self._repository = ApiRepository()
+            self._state_manager = StateManager()
 
     async def handle(
         self,
-        api_id: str,
+        id: str,
         path: str,
         request: Request,
     ) -> Response:
-        api_definition = await self._repository.get(api_id)
+        api_definition = await self._repository.get(id)
         if not api_definition:
             raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Mock API schema with ID '{api_id}' could not be found",
+                    detail=f"Mock API schema with ID '{id}' could not be found",
             )
 
         normalized_target_path = f"/{path.strip('/')}" if path else "/"
@@ -34,11 +36,11 @@ class MockEngine:
 
         if not matched_route:
              raise HTTPException(
-                  status_code=status.HTTP_404_NOT_FOUND,
-                  detail=(
-                      f"The path '{normalized_target_path}' is not defined in this "
-                      "mock context"
-                  ),
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=(
+                    f"The path '{normalized_target_path}' is not defined in this "
+                    "mock context"
+                ),
              )
 
         request_method = request.method.upper()
@@ -53,8 +55,16 @@ class MockEngine:
                 ),
             )
 
+        current_state = await self._state_manager.get(id, path)
+
+        default_status = 200
+        if request_method == "POST":
+            default_status = 201
+        elif request_method == "DELETE":
+            default_status = 204
+
         return Response(
-             content=json.dumps(matched_route.response_body),
-             status_code=matched_route.response_status,
-             media_type="application/json",
+            content=json.dumps(current_state),
+            status_code=default_status,
+            media_type="application/json",
         )
