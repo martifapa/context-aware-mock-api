@@ -5,13 +5,12 @@ from app.models.route_definition import RouteDefinition
 
 
 class StateManager:
-
     def __init__(self):
         self._redis = get_redis_client()
         self._prefix = "mock_state"
 
     def _get_key(self, api_id: str, route_path: str) -> str:
-        clean_path = route_path.strip('/')
+        clean_path = route_path.strip("/")
         return f"{self._prefix}:{api_id}:{clean_path}"
 
     async def initialize(

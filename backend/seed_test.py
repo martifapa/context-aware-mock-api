@@ -16,23 +16,19 @@ api_definition_payload = {
                 "properties": {
                     "sku": {"type": "str"},
                     "name": {"type": "str"},
-                    "quantity": {"type": "int"}
-                }
+                    "quantity": {"type": "int"},
+                },
             },
-            "behaviours": {
-                "GET": {
-                    "action": "decrement",
-                    "field": "stock"
-                }
-            }
+            "behaviours": {"GET": {"action": "decrement", "field": "stock"}},
         }
-    ]
+    ],
 }
 
 inventory_state = [
     {"sku": "SKU-992", "name": "Wireless Mouse", "quantity": 42},
-    {"sku": "SKU-104", "name": "Mechanical Keyboard", "quantity": 15}
+    {"sku": "SKU-104", "name": "Mechanical Keyboard", "quantity": 15},
 ]
+
 
 async def seed():
     r = Redis(host="localhost", port=6379, decode_responses=True)
@@ -43,6 +39,7 @@ async def seed():
 
     print("Database seeding completed")
     await r.aclose()
+
 
 if __name__ == "__main__":
     asyncio.run(seed())
