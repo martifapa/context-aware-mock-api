@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Literal
+from typing import Literal
+
+from pydantic import BaseModel
 
 
 class FieldDefinition(BaseModel):
